@@ -10,10 +10,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true,
@@ -22,6 +18,10 @@ const userSchema = new mongoose.Schema({
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             "Please enter a valid email address"
         ]
+    },
+    password: {
+        type: String,
+        required: true
     },
     balance: {
         type: Number,

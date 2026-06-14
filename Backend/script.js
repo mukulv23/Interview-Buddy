@@ -16,9 +16,7 @@ app.use(cookieParser())
 // Making Routes
 app.use("/api/auth", AuthRoutes);
 
-const PORT = process.env.PORT || 4500;
-
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log("Server Started");
     connection()
 })
