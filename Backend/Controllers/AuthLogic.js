@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { sendOtp } from "../Utils/SendMail.js";
 import jwt from 'jsonwebtoken'
 
-export const GenerateOtp = async (req, res) => {
+export const GenerateOtp = async (req, res, next) => {
 
     const { name, username, email, password } = req.body;
     if (!name || !username || !email || !password) {
@@ -66,11 +66,11 @@ export const GenerateOtp = async (req, res) => {
         })
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error" })
+        next(error);
     }
 }
 
-export const RegisterUser = async (req, res) => {
+export const RegisterUser = async (req, res, next) => {
     const { email, otp } = req.body;
 
     if (!email || !otp)
@@ -103,11 +103,11 @@ export const RegisterUser = async (req, res) => {
         })
     }
     catch (error) {
-        return res.status(500).json({ success: false, message: "Error" })
+        next(error);
     }
 }
 
-export const LoginUser = async (req, res) => {
+export const LoginUser = async (req, res, next) => {
 
     const { identifier, password } = req.body;
 
@@ -139,7 +139,7 @@ export const LoginUser = async (req, res) => {
             })
 
         const token = jwt.sign(
-            { id: userExist._id },
+            { _id: userExist._id },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         )
@@ -157,6 +157,24 @@ export const LoginUser = async (req, res) => {
         })
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error" })
+        next(error);
+    }
+}
+
+export const getUser = async (req, res, next) => {
+    try {
+        const data = req.user;
+        if (!data)
+            res.status(400).json({
+                success: false,
+                message: "Some Error Occured"
+            })
+        res.status(200).json({
+            success: true,
+            message: "Logged User data received",
+            data
+        })
+    } catch (error) {
+        next(error);
     }
 }
