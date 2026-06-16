@@ -13,10 +13,10 @@ export const Login = () => {
       </div>
       <div className=' w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl'>
         <h2 className='font-medium text-sm p-1.5'>Email or Username</h2>
-        <input type="text" placeholder='Enter your email or username' className='bg-[#fcfcfc] w-full max-w-sm p-1.5 rounded border border-gray-300 shadow font-medium' />
+        <input type="text" placeholder='Enter your email or username' className='input' />
         <h2 className='font-medium text-sm p-1.5'>Password</h2>
-        <input type="password" placeholder='Enter your password' className='bg-[#fcfcfc] w-full max-w-sm p-1.5 rounded border border-gray-300 shadow font-medium' />
-        <button className='bg-[#8e51ff] mt-4 w-full max-w-sm text-white p-1.5 rounded-2xl active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer'>Log in</button>
+        <input type="password" placeholder='Enter your password' className='input' />
+        <button className='auth-btn'>Log in</button>
         <h2 className='font-medium text-gray-500 text-sm p-1.5 text-center'>Don't have an account? <NavLink to='/register' className="text-[#5a2bd2] active:text-[#5a2bd2] md:hover:underline">Register</NavLink></h2>
       </div>
     </div>

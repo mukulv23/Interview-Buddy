@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
-*{
+* {
     box-sizing: border-box;
+}
+
+
+.input {
+    @apply bg-[#fcfcfc] outline-0 w-full max-w-sm p-1.5 rounded border border-gray-300 shadow font-medium
+}
+
+.auth-btn {
+    @apply bg-[#8e51ff] mt-4 w-full max-w-sm text-white p-1.5 rounded-2xl active:bg-[#754bdf] md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer
 }
