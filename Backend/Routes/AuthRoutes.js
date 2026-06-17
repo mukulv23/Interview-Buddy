@@ -7,6 +7,6 @@ const router = express.Router();
 router.post("/generate-otp", GenerateOtp);
 router.post("/register-user", RegisterUser)
 router.post("/login-user", LoginUser);
-router.get("/get-me", Protected, getUser)
+router.get("/get-user", Protected, getUser)
 
 export default router;
