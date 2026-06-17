@@ -1,9 +1,11 @@
 import React from 'react'
 import { Sparkles, RocketIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { Auth } from '../contexts/AuthContext.jsx'
 
 export const Home = () => {
     const navigate = useNavigate();
+    const { user } = Auth();
     return (
         <div className='max-w-7xl mx-auto px-4 flex flex-col gap-4 mt-2 md:flex-row md:mt-8 md:gap-10'>
             <div className='flex flex-col gap-2 mt-4 md:flex-1 md:mt-12'>
@@ -16,10 +18,15 @@ export const Home = () => {
             </div>
             <div className='flex flex-col gap-4 md:flex-1 md:w-full'>
                 <div className='bg-amber-500 rounded-2xl h-40 md:h-80 '></div>
-                <button className='bg-[#8e51ff] rounded-2xl h-12 flex items-center justify-center gap-2 text-white active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer' onClick={() => navigate('/login')}>
-                    <RocketIcon size={16} />
-                    <span className='font-bold'>Get Started</span>
-                </button>
+                {user ?
+                    <button className='bg-[#8e51ff] rounded-2xl h-12 flex items-center justify-center gap-2 text-white active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer' onClick={() => navigate('/login')}>
+                        <RocketIcon size={16} />
+                        <span className='font-bold'>Explore</span>
+                    </button> :
+                    <button className='bg-[#8e51ff] rounded-2xl h-12 flex items-center justify-center gap-2 text-white active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer' onClick={() => navigate('/login')}>
+                        <RocketIcon size={16} />
+                        <span className='font-bold'>Get Started</span>
+                    </button>}
             </div>
         </div>
     )
