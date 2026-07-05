@@ -27,7 +27,7 @@ const SelectCard = ({ selected, onClick, icon: Icon, title, subtitle, accent = "
     return (
         <button
             onClick={onClick}
-            className={`flex flex-1 flex-col items-center gap-1 rounded-lg border px-4 py-4 text-center transition-colors ${selected ? accentClasses : "border-gray-200 bg-white hover:bg-gray-50"
+            className={`flex flex-1 font-semibold flex-col items-center gap-1 rounded-lg border px-4 py-4 text-center transition-colors ${selected ? accentClasses : "border-gray-200 bg-white hover:bg-gray-50"
                 }`}
         >
             <Icon
@@ -35,7 +35,7 @@ const SelectCard = ({ selected, onClick, icon: Icon, title, subtitle, accent = "
                 className={selected ? "text-violet-600" : "text-gray-800"}
             />
             <span
-                className={`text-sm font-medium ${selected ? "text-gray-900" : "text-gray-600"
+                className={`text-sm font-bold ${selected ? "text-gray-900" : "text-gray-600"
                     }`}
             >
                 {title}
@@ -48,7 +48,7 @@ const SelectCard = ({ selected, onClick, icon: Icon, title, subtitle, accent = "
 };
 
 const SectionLabel = ({ icon: Icon, children }) => (
-    <div className="mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-gray-800">
+    <div className="mb-3 flex items-center gap-1.5 text-base font-bold uppercase tracking-wide text-gray-800">
         <Icon size={13} className="text-gray-800" />
         {children}
     </div>
@@ -105,7 +105,7 @@ export default function Interview() {
     return (
         <div className="bg-gray-50 p-12 px-6 md:px-54">
             <div className="mx-auto max-w-6xl">
-                <h1 className="text-3xl font-semibold text-gray-900">
+                <h1 className="text-3xl font-bold text-gray-900">
                     Start New Interview
                 </h1>
                 <p className="mt-1 text-sm text-gray-600">
@@ -118,7 +118,7 @@ export default function Interview() {
                         {/* job role */}
                         <div>
                             <SectionLabel icon={Briefcase}>Job Role</SectionLabel>
-                            <button className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-gray-50">
+                            <button className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-sm font-semibold text-gray-900 hover:bg-gray-50">
                                 {jobRole}
                                 <ChevronDown size={16} className="text-gray-800" />
                             </button>
@@ -242,7 +242,7 @@ export default function Interview() {
                                 <Info size={15} />
                             </span>
                             <div>
-                                <p className="text-sm font-semibold text-gray-900">
+                                <p className="text-sm font-bold text-gray-900">
                                     Session Overview
                                 </p>
                             </div>
@@ -268,7 +268,7 @@ export default function Interview() {
                             <div className="flex items-start gap-3">
                                 <Briefcase size={14} className="mt-0.5 text-gray-800" />
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                    <p className="text-xs font-bold uppercase tracking-wide text-gray-800">
                                         Role
                                     </p>
                                     <p className="text-sm font-medium text-gray-900">{jobRole}</p>
@@ -277,7 +277,7 @@ export default function Interview() {
                             <div className="flex items-start gap-3">
                                 <Users size={14} className="mt-0.5 text-gray-800" />
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                    <p className="text-xs font-bold uppercase tracking-wide text-gray-800">
                                         Type
                                     </p>
                                     <p className="text-sm font-medium text-gray-900">{selectedTypeLabel}</p>
@@ -286,7 +286,7 @@ export default function Interview() {
                             <div className="flex items-start gap-3">
                                 <Clock size={14} className="mt-0.5 text-gray-800" />
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                                    <p className="text-xs font-bold uppercase tracking-wide text-gray-800">
                                         Duration
                                     </p>
                                     <p className="text-sm font-medium text-gray-900">~20 minutes</p>

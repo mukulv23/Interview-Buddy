@@ -45,8 +45,8 @@ const CardHeader = ({ icon: Icon, title, subtitle }) => (
       <Icon size={16} />
     </span>
     <div>
-      <p className="text-sm font-semibold text-gray-900">{title}</p>
-      <p className="text-xs text-gray-400">{subtitle}</p>
+      <p className="text-base font-bold text-gray-900">{title}</p>
+      <p className="text-xs font-medium text-gray-400">{subtitle}</p>
     </div>
   </div>
 );
@@ -73,16 +73,16 @@ export default function InterviewSession() {
               <Bot size={17} />
             </span>
             <div>
-              <p className="text-sm font-semibold text-gray-900">InterviewAI</p>
-              <p className="text-xs text-gray-400">Active interview session</p>
+              <p className="text-sm font-bold text-gray-900">InterviewAI</p>
+              <p className="text-xs font-medium text-gray-400">Active interview session</p>
             </div>
           </div>
 
           <div className="text-center">
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-bold text-gray-900">
               Frontend Developer Interview
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs font-medium text-gray-400">
               Technical Interview &middot; Medium
             </p>
           </div>
@@ -128,7 +128,7 @@ export default function InterviewSession() {
                 <span className="mt-2 rounded-full bg-violet-50 px-2.5 py-0.5 text-xs font-medium text-violet-600">
                   AI
                 </span>
-                <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                <p className="mt-3 text-xs font-bold uppercase tracking-wide text-gray-400">
                   AI Interviewer
                 </p>
               </div>
@@ -148,8 +148,8 @@ export default function InterviewSession() {
             {/* answer card */}
             <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-gray-900">Your Answer</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-sm font-bold text-gray-900">Your Answer</p>
+                <p className="text-xs font-medium text-gray-400">
                   {answer.length} / {maxChars} characters
                 </p>
               </div>
@@ -159,18 +159,18 @@ export default function InterviewSession() {
                 onChange={(e) => setAnswer(e.target.value.slice(0, maxChars))}
                 placeholder="Type your answer here..."
                 rows={7}
-                className="mt-3 w-full resize-none rounded-lg border border-gray-200 p-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-violet-300"
+                className="mt-3 w-full resize-none rounded-lg border border-gray-200 p-3 text-sm text-gray-900 font-medium placeholder-gray-400 outline-none focus:border-violet-300"
               />
 
               <div className="mt-3 flex gap-3">
                 <button
                   onClick={() => setAnswer("")}
-                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
                 >
                   <X size={14} />
                   Clear
                 </button>
-                <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50">
                   <Save size={14} />
                   Save Draft
                 </button>
@@ -181,12 +181,12 @@ export default function InterviewSession() {
             <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
               <button
                 disabled
-                className="flex items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400"
+                className="flex items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400"
               >
                 <ChevronLeft size={14} />
                 Previous Question
               </button>
-              <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">
                 <SkipForward size={14} />
                 Skip Question
               </button>

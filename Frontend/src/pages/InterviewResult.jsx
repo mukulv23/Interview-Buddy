@@ -18,7 +18,7 @@ import {
 const CardTitle = ({ title, subtitle, right }) => (
     <div className="flex items-start justify-between">
         <div>
-            <p className="text-base font-semibold text-gray-900">{title}</p>
+            <p className="text-xl font-bold text-gray-900">{title}</p>
             <p className="mt-0.5 text-sm text-gray-400">{subtitle}</p>
         </div>
         {right}
@@ -169,8 +169,6 @@ const recommendations = [
 const overallScore = 82;
 const ringPercent = overallScore;
 
-/* ---------- main ---------- */
-
 export default function InterviewResults() {
     const radius = 46;
     const circumference = 2 * Math.PI * radius;
@@ -186,7 +184,7 @@ export default function InterviewResults() {
                             <CheckCircle2 size={18} />
                         </span>
                         <div>
-                            <p className="text-base font-semibold text-gray-900">
+                            <p className="text-xl font-bold text-gray-900">
                                 Interview Completed Successfully 🎉
                             </p>
                             <p className="mt-0.5 text-sm text-gray-400">
