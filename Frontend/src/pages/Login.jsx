@@ -21,8 +21,10 @@ export const Login = () => {
     e.preventDefault();
     setPending(true)
     const { identifier, password } = formData;
-    if (!identifier || !password)
+    if (!identifier || !password) {
+      setPending(false)
       return alert("All field are required");
+    }
 
     try {
 
@@ -40,11 +42,15 @@ export const Login = () => {
         navigate('/');
         window.location.reload();
       }
+      else {
+        alert(data.message)
+        setPending(false)
+      }
     } catch (error) {
       console.log(error.message);
     }
     finally {
-      setPending(true)
+      setPending(false)
     }
   }
   return (

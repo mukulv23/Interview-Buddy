@@ -17,9 +17,10 @@ export const ProvideContext = ({ children }) => {
                 credentials: "include"
             })
             const data = await response.json();
-            console.log(data);
             if (data.success)
                 setUser(data.data);
+            else
+                setUser(null);
         } catch (error) {
             console.log(error.message);
         }

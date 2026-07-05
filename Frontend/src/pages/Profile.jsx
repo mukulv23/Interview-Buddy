@@ -26,7 +26,7 @@ export const Profile = () => {
                         <Edit2 size={20} className='text-white' />
                     </button>
                     <div className='flex flex-col items-center justify-center gap-2'>
-                        <img src="../public/DefaultPfp.jpg" className='h-25 rounded-full' alt="Profile" />
+                        <img src="DefaultPfp.jpg" className='h-25 rounded-full' alt="Profile" />
                         <h2 className='font-medium text-xl'>{user.username}</h2>
                     </div>
                 </div>

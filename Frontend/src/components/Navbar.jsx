@@ -20,12 +20,12 @@ export const Navbar = () => {
                     </div>
                     {show ?
                         <ul className="flex flex-col items-center absolute top-23 right-0 w-36 bg-white shadow-lg rounded-xl p-4 gap-4 transition duration-200 z-10 md:hidden">
-                            <NavLink to="/create-interview" onClick={() => setShow(!show)} className="text-lg font-medium">Interview</NavLink>
+                            <NavLink to="/interview" onClick={() => setShow(!show)} className="text-lg font-medium">Interview</NavLink>
                             <NavLink to="/wallet" onClick={() => setShow(!show)} className="text-lg font-medium">Wallet</NavLink>
                             <NavLink to="/profile" onClick={() => setShow(!show)} className="text-lg font-medium">Profile</NavLink>
                         </ul> :
                         <ul className='hidden md:flex items-center gap-6'>
-                            <NavLink to="/create-interview" className="text-lg font-medium border-b-2 border-transparent hover:border-b-lime-950">Interview</NavLink>
+                            <NavLink to="interview" className="text-lg font-medium border-b-2 border-transparent hover:border-b-lime-950">Interview</NavLink>
                             <NavLink to="/wallet" className="text-lg font-medium border-b-2 border-transparent hover:border-b-lime-950">Wallet</NavLink>
                             <NavLink to="/profile" className="text-lg font-medium border-b-2 border-transparent hover:border-b-lime-950">Profile</NavLink>
                         </ul>
