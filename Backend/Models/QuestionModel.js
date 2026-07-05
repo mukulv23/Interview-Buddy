@@ -33,6 +33,6 @@ const questionSchema = new mongoose.Schema({
     }
 })
 
-const questionModel = mongoose.model("questions", questionSchema);
+const questionModel = mongoose.model("Question", questionSchema);
 
 export default questionModel;

@@ -1,51 +1,66 @@
 import mongoose from "mongoose";
 
-const interviewSchema = new mongoose.Schema({
-    role: {
-        type: String,
-        enum: ["Frontend Developer", "Backend Developer", "Data Analyst"],
-        default: "Frontend Developer",
-        required: true
-    },
-    round: {
-        type: String,
-        enum: ["Technical Round", "Hr Round", "Coding Round"],
-        default: "Hr Round",
-        required: true
-    },
-    difficulty: {
-        type: String,
-        enum: ["Easy", "Medium", "Hard"],
-        default: "Easy",
-        required: true
-    },
-    totalQuestions: {
-        type: Number,
-        default: 10,
-        min: 5,
-        max: 20,
-        required: true
-    },
-    questions: {
-        type: Object,
-        required: true,
-        min: 20,
-        max: 20,
-        required: true
-    },
-    answers: {
-        type: Object,
-        required: true,
-        min: 20,
-        max: 20,
-        required: true
-    },
-    durationInMin: {
-        type: Number,
-        default: 20
-    }
-}, { timestamps: true });
+const interviewSchema = new mongoose.Schema(
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
 
-const interviewModel = mongoose.model("interviews", interviewSchema);
+        role: {
+            type: String,
+            enum: ["Frontend Developer", "Backend Developer", "Data Analyst"],
+            required: true,
+        },
+
+        round: {
+            type: String,
+            enum: ["Technical Round", "Hr Round", "Coding Round"],
+            required: true,
+        },
+
+        level: {
+            type: String,
+            enum: ["Easy", "Medium", "Hard"],
+            required: true,
+        },
+
+        status: {
+            type: String,
+            enum: ["in_progress", "completed"],
+            default: "in_progress",
+        },
+
+        totalQuestions: {
+            type: Number,
+            min: 1,
+            max: 20,
+            required: true,
+        },
+
+        durationInMin: {
+            type: Number,
+            default: 20,
+        },
+
+        score: {
+            type: Number,
+            min: 0,
+            max: 10,
+            default: null,
+        },
+
+        completedAt: {
+            type: Date,
+            default: null,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+const interviewModel = mongoose.model("Interview", interviewSchema);
 
 export default interviewModel;
