@@ -28,7 +28,7 @@ const SelectCard = ({ selected, onClick, icon: Icon, title, subtitle, accent = "
     return (
         <button
             onClick={onClick}
-            className={`flex flex-1 font-semibold flex-col items-center gap-1 rounded-lg border px-4 py-4 text-center transition-colors ${selected ? accentClasses : "border-gray-200 bg-white hover:bg-gray-50"
+            className={`flex flex-1 font-semibold cursor-pointer flex-col items-center gap-1 rounded-lg border px-4 py-4 text-center transition-colors ${selected ? accentClasses : "border-gray-200 bg-white hover:bg-gray-50"
                 }`}
         >
             <Icon
@@ -68,41 +68,59 @@ const experienceLevels = [
     { key: "advanced", title: "Advanced", subtitle: "5+ Years", icon: Zap },
 ];
 
-const interviewTypes = [
+const rounds = [
     {
-        key: "technical",
-        title: "Technical Interview",
+        title: "Coding Round",
+        subtitle: "DSA & Problem Solving",
+        icon: Shuffle,
+    },
+    {
+        title: "Technical Round",
         subtitle: "Algorithms & system design",
         icon: Code2,
     },
     {
-        key: "hr",
-        title: "HR Interview",
+        title: "HR Round",
         subtitle: "Behavioral & culture fit",
         icon: Users,
-    },
-    {
-        key: "mixed",
-        title: "Mixed Interview",
-        subtitle: "Blend of both types",
-        icon: Shuffle,
     },
 ];
 
 const difficulties = ["Easy", "Medium", "Hard"];
 
+const roles = ["Frontend Developer", "Backend Developer", "Data Analyst"]
+
 export default function Interview() {
-    const [jobRole] = useState("Frontend Developer");
+    const [role, setRole] = useState("Frontend Developer");
     const [experience, setExperience] = useState("intermediate");
-    const [interviewType, setInterviewType] = useState("technical");
-    const [difficulty, setDifficulty] = useState("Medium");
+    const [round, setRound] = useState("Coding Round");
+    const [level, setLevel] = useState("Medium");
     const [numQuestions, setNumQuestions] = useState(10);
     const navigate = useNavigate();
 
+    const API = import.meta.env.VITE_API_URL;
+
     const selectedTypeLabel =
-        interviewTypes.find((t) => t.key === interviewType)?.title ?? "";
+        rounds.find((t) => t.key === round)?.title ?? "";
 
     const percent = ((numQuestions - 5) / (20 - 5)) * 100;
+
+    const handleStartInterview = async () => {
+        console.log(role, experience, round, level, numQuestions)
+        const response = await fetch(`${API}/interview/start-interview`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ role, round, level, numQuestions }),
+            credentials: "include"
+        })
+        const data = await response.json();
+        if (data.success) {
+            alert(data.message)
+            navigate('/start-interview')
+        }
+    }
 
     return (
         <div className="bg-gray-50 p-12 px-6 md:px-54">
@@ -120,10 +138,23 @@ export default function Interview() {
                         {/* job role */}
                         <div>
                             <SectionLabel icon={Briefcase}>Job Role</SectionLabel>
-                            <button className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-sm font-semibold text-gray-900 hover:bg-gray-50">
-                                {jobRole}
-                                <ChevronDown size={16} className="text-gray-800" />
-                            </button>
+
+                            <div className="relative">
+                                <select
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    className="w-full appearance-none rounded-lg border border-gray-200 bg-white px-4 py-2 pr-10 text-sm font-semibold text-gray-900 focus:outline-none hover:bg-gray-50 cursor-pointer"
+                                >
+                                    {roles.map((item, idx) => (
+                                        <option key={idx} value={item} className="bg-gray-50">{item}</option>
+                                    ))}
+                                </select>
+
+                                <ChevronDown
+                                    size={16}
+                                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-800"
+                                />
+                            </div>
                         </div>
 
                         {/* experience level */}
@@ -140,34 +171,34 @@ export default function Interview() {
                             ))}
                         </div>
 
-                        {/* interview type */}
+                        {/* interview Round type */}
                         <div>
                             <SectionLabel icon={Code2}>Interview Type</SectionLabel>
                             <div className="flex flex-col md:flex-row gap-3">
-                                {interviewTypes.map((t) => (
+                                {rounds.map((t, key) => (
                                     <SelectCard
-                                        key={t.key}
+                                        key={key}
                                         icon={t.icon}
                                         title={t.title}
                                         subtitle={t.subtitle}
-                                        selected={interviewType === t.key}
-                                        onClick={() => setInterviewType(t.key)}
+                                        selected={round === t.title}
+                                        onClick={() => setRound(t.title)}
                                     />
                                 ))}
                             </div>
                         </div>
 
-                        {/* difficulty */}
+                        {/* difficulty Level */}
                         <div>
                             <SectionLabel icon={SlidersHorizontal}>Difficulty Level</SectionLabel>
                             <div className="flex gap-3">
                                 {difficulties.map((d) => {
-                                    const selected = difficulty === d;
+                                    const selected = level === d;
                                     return (
                                         <button
                                             key={d}
-                                            onClick={() => setDifficulty(d)}
-                                            className={`rounded-full border px-5 py-1.5 text-sm font-medium transition-colors ${selected
+                                            onClick={() => setLevel(d)}
+                                            className={`rounded-full cursor-pointer border px-5 py-1.5 text-sm font-medium transition-colors ${selected
                                                 ? "border-amber-300 bg-amber-50 text-amber-700"
                                                 : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
                                                 }`}
@@ -227,10 +258,10 @@ export default function Interview() {
 
                         {/* actions */}
                         <div className="flex gap-3 pt-2">
-                            <button className="flex-1 rounded-lg border border-gray-200 bg-white py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <button className="flex-1 cursor-pointer rounded-lg border border-gray-200 bg-white py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                                 Cancel
                             </button>
-                            <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700" onClick={() => navigate('/start-interview')}>
+                            <button className="flex cursor-pointer flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700" onClick={handleStartInterview}>
                                 <Play size={14} />
                                 Start Interview
                             </button>
@@ -273,7 +304,7 @@ export default function Interview() {
                                     <p className="text-xs font-bold uppercase tracking-wide text-gray-800">
                                         Role
                                     </p>
-                                    <p className="text-sm font-medium text-gray-900">{jobRole}</p>
+                                    <p className="text-sm font-medium text-gray-900">{role}</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
@@ -282,7 +313,7 @@ export default function Interview() {
                                     <p className="text-xs font-bold uppercase tracking-wide text-gray-800">
                                         Type
                                     </p>
-                                    <p className="text-sm font-medium text-gray-900">{selectedTypeLabel}</p>
+                                    <p className="text-sm font-medium text-gray-900">{round}</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">

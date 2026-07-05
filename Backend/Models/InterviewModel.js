@@ -32,7 +32,7 @@ const interviewSchema = new mongoose.Schema(
             default: "in_progress",
         },
 
-        totalQuestions: {
+        numQuestions: {
             type: Number,
             min: 1,
             max: 20,
@@ -66,7 +66,7 @@ const interviewSchema = new mongoose.Schema(
 
         feedback: {
             type: String,
-            default: "Your answers were cool."
+            default: null
         },
 
         startedAt: {
