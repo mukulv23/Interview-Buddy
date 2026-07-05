@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import {
     Briefcase,
     ChevronDown,
@@ -96,6 +97,7 @@ export default function Interview() {
     const [interviewType, setInterviewType] = useState("technical");
     const [difficulty, setDifficulty] = useState("Medium");
     const [numQuestions, setNumQuestions] = useState(10);
+    const navigate = useNavigate();
 
     const selectedTypeLabel =
         interviewTypes.find((t) => t.key === interviewType)?.title ?? "";
@@ -228,7 +230,7 @@ export default function Interview() {
                             <button className="flex-1 rounded-lg border border-gray-200 bg-white py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                                 Cancel
                             </button>
-                            <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700">
+                            <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700" onClick={() => navigate('/start-interview')}>
                                 <Play size={14} />
                                 Start Interview
                             </button>

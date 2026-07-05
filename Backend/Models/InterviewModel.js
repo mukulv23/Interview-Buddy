@@ -51,6 +51,29 @@ const interviewSchema = new mongoose.Schema(
             default: null,
         },
 
+        qna: [
+            {
+                question: {
+                    type: String,
+                    trim: true
+                },
+                userAnswer: {
+                    type: String,
+                    trim: true
+                }
+            }
+        ],
+
+        feedback: {
+            type: String,
+            default: "Your answers were cool."
+        },
+
+        startedAt: {
+            type: Date,
+            default: null
+        },
+
         completedAt: {
             type: Date,
             default: null,

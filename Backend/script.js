@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import connection from './config/DbConnect.js' /* DataBase Connection */
 
 import AuthRoutes from './Routes/AuthRoutes.js'
+import interviewRoutes from './Routes/InterviewRoutes.js'
 import { ErrorForCatch } from './MiddleWares/Error.js'
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(cookieParser())
 
 // Making Routes
 app.use("/api/auth", AuthRoutes);
+app.use("/api/interview", interviewRoutes);
 
 app.use(ErrorForCatch);
 app.listen(process.env.PORT, () => {
