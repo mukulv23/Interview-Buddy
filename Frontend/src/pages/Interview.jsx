@@ -116,9 +116,9 @@ export default function Interview() {
             credentials: "include"
         })
         const data = await response.json();
+        console.log(data.message)
         if (data.success) {
-            alert(data.message)
-            navigate('/start-interview')
+            navigate(`/start-interview/${data.savedData._id}`);
         }
     }
 

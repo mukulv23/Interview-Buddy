@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Bot,
   Clock,
@@ -11,8 +11,9 @@ import {
   Briefcase,
   BarChart3,
 } from "lucide-react";
+import { useParams } from "react-router-dom";
 
-/* ---------- shared bits ---------- */
+/* shared bits */
 
 const Caption = ({ children }) => (
   <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
@@ -51,17 +52,46 @@ const CardHeader = ({ icon: Icon, title, subtitle }) => (
   </div>
 );
 
-/* ---------- data ---------- */
-
-const totalQuestions = 10;
-const currentQuestion = 3;
-const progressPercent = Math.round((currentQuestion / totalQuestions) * 100);
+/* data */
 const maxChars = 1500;
 
-/* ---------- main ---------- */
+/* main */
 
 export default function InterviewSession() {
   const [answer, setAnswer] = useState("");
+
+  const [role, setRole] = useState("");
+  const [round, setRound] = useState("");
+  const [level, setLevel] = useState("");
+  const [time, setTime] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [progress, setProgress] = useState(0);
+
+
+  const API = import.meta.env.VITE_API_URL;
+  const { id } = useParams()
+
+  const getData = async () => {
+
+    const response = await fetch(`${API}/interview/get-questions/${id}`, {
+      method: "GET",
+      credentials: "include"
+    })
+    const data = await response.json();
+    if (data.success) {
+      console.log(data)
+      setRole(data.data.role);
+      setLevel(data.data.level);
+      setRound(data.data.round);
+      setTime(data.data.durationInMin);
+      setTotalQuestions(data.data.numQuestions);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
@@ -73,26 +103,22 @@ export default function InterviewSession() {
               <Bot size={17} />
             </span>
             <div>
-              <p className="text-sm font-bold text-gray-900">InterviewAI</p>
+              <p className="text-sm font-bold text-gray-900">Live interview</p>
               <p className="text-xs font-medium text-gray-400">Active interview session</p>
             </div>
           </div>
 
           <div className="text-center">
             <p className="text-sm font-bold text-gray-900">
-              Frontend Developer Interview
+              {role}
             </p>
             <p className="text-xs font-medium text-gray-400">
-              Technical Interview &middot; Medium
+              {round} &middot; {level}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700">
-              <Clock size={14} className="text-gray-400" />
-              00:15:32
-            </span>
-            <button className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm font-medium text-red-500 hover:bg-red-50">
+            <button className="flex items-center cursor-pointer gap-1.5 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm font-medium text-red-500 hover:bg-red-50">
               <LogOut size={14} />
               Exit Interview
             </button>
@@ -107,11 +133,11 @@ export default function InterviewSession() {
           <div className="h-2 flex-1 rounded-full bg-gray-100">
             <div
               className="h-2 rounded-full bg-violet-600"
-              style={{ width: `${progressPercent}%` }}
+              style={{ width: `${progress}%` }}
             />
           </div>
           <span className="whitespace-nowrap text-sm text-gray-500">
-            {progressPercent}% Completed
+            {progress}% Completed
           </span>
         </div>
 
@@ -120,7 +146,11 @@ export default function InterviewSession() {
           {/* main column */}
           <div className="space-y-4">
             {/* question card */}
-            <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+            <div className="rounded-xl relative border border-gray-100 bg-white p-6 shadow-sm">
+              <span className="flex items-center justify-end h-10 max-w-20 cursor-pointer hover:bg-gray-200 absolute right-5 gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700">
+                <Clock size={14} className="text-gray-400" />
+                {time}
+              </span>
               <div className="flex flex-col items-center text-center">
                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-violet-600 text-white">
                   <Bot size={26} />
@@ -165,14 +195,10 @@ export default function InterviewSession() {
               <div className="mt-3 flex gap-3">
                 <button
                   onClick={() => setAnswer("")}
-                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
                 >
                   <X size={14} />
                   Clear
-                </button>
-                <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50">
-                  <Save size={14} />
-                  Save Draft
                 </button>
               </div>
             </div>
@@ -181,16 +207,16 @@ export default function InterviewSession() {
             <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
               <button
                 disabled
-                className="flex items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400"
+                className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400"
               >
                 <ChevronLeft size={14} />
                 Previous Question
               </button>
-              <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">
+              <button className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">
                 <SkipForward size={14} />
                 Skip Question
               </button>
-              <button className="flex items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700">
+              <button className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700">
                 Next Question
                 <ChevronRight size={14} />
               </button>
@@ -207,12 +233,11 @@ export default function InterviewSession() {
               />
 
               <div className="mt-4 space-y-3">
-                <DetailBox label="Role">Frontend Developer</DetailBox>
-                <DetailBox label="Experience">Intermediate (2-4 Years)</DetailBox>
-                <DetailBox label="Type">Technical Interview</DetailBox>
+                <DetailBox label="Role">{role}</DetailBox>
+                <DetailBox label="Type">{round}</DetailBox>
                 <DetailBox label="Difficulty">
                   <span className="inline-flex rounded-md bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
-                    Medium
+                    {level}
                   </span>
                 </DetailBox>
                 <DetailBox label="Questions Remaining">

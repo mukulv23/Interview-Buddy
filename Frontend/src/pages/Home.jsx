@@ -63,11 +63,11 @@ export const Home = () => {
 
                     <p className="mt-4 flex max-w-full md:max-w-[450px] items-start gap-2 text-sm leading-6 text-[#566476]">
                         <img
-                            src="/cookie-settings/view.png"
+                            src="/cookie-setings/view.png"
                             alt="image"
                             height={15}
                             width={15}
-                            className="mt-1 shrink-0"
+                            className="mt-1 bg-red-100 shrink-0"
                         />
                         <span>
                             Essential cookies keep the site working. Non-essential cookies

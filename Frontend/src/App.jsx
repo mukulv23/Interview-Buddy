@@ -23,7 +23,7 @@ function App() {
           <Route path="/login" element={<Public><Login /></Public>} />
           <Route path="/register" element={<Public><Register /></Public>} />
           <Route path="/interview" element={<Interview />} />
-          <Route path="/start-interview" element={<InterviewSession />} />
+          <Route path="/start-interview/:id" element={<InterviewSession />} />
           <Route path="/wallet" element={<h1>wallet</h1>} />
           <Route path="/profile" element={<Protected><Profile /></Protected>} />
           <Route path="/update/:id" element={<h1>update user</h1>} />
