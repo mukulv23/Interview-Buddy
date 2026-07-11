@@ -16,7 +16,7 @@ const interviewSchema = new mongoose.Schema(
 
         round: {
             type: String,
-            enum: ["Technical Round", "Hr Round", "Coding Round"],
+            enum: ["Technical Round", "HR Round", "Coding Round"],
             required: true,
         },
 
@@ -41,7 +41,7 @@ const interviewSchema = new mongoose.Schema(
 
         durationInMin: {
             type: Number,
-            default: 20,
+            default: 300,
         },
 
         score: {
