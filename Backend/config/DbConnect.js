@@ -2,10 +2,10 @@ import mongoose from 'mongoose'
 
 async function connection() {
     try {
-        console.log("DB connected")
         await mongoose.connect(process.env.DB_URL)
+        console.log("DB connected")
     } catch (error) {
-        console.log(error.message)
+        console.log("MongoDB connection failed:", error)
     }
 }
 
