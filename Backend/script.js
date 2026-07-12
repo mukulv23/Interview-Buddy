@@ -14,12 +14,12 @@ const app = express()
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        process.env.CLIENT_URL,
+        process.env.CLIENT_URL
     ],
     credentials: true
 }))
-app.use(express.json())
 app.use(cookieParser())
+app.use(express.json())
 
 // Making Routes
 app.use("/api/auth", AuthRoutes);

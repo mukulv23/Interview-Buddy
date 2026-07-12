@@ -4,7 +4,7 @@ import { Bot } from 'lucide-react'
 import { useState } from 'react'
 export const Login = () => {
 
-  const API = import.meta.env.VITE_API_URL || "http://localhost:4500/api"
+  const API = import.meta.env.VITE_API_URL
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({

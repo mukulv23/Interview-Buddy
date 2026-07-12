@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Auth } from '../contexts/AuthContext.jsx'
 import {
     Mic, BarChart3, FileText, Briefcase, TrendingUp,
     Sparkles, RocketIcon, ArrowRight, Verified, Quote, XCircle, CheckCircle2,
@@ -105,7 +104,6 @@ export const Home = () => {
         show();
     }, [])
     const navigate = useNavigate();
-    // const { user } = Auth();
     return (
         <>
             {/* Hero Section */}
@@ -315,7 +313,7 @@ export const Home = () => {
                     </div>
 
                     {/* CTA */}
-                    <div className="bg-gradient-to-r from-purple-600 to-purple-400 rounded-2xl px-6 py-10 sm:py-14 text-center">
+                    <div className="bg-linear-to-r from-purple-600 to-purple-400 rounded-2xl px-6 py-10 sm:py-14 text-center">
                         <h3 className="text-xl sm:text-2xl font-bold text-white">
                             Ready to Ace Your Next Interview?
                         </h3>

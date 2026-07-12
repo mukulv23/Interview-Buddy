@@ -250,7 +250,7 @@ export default function Dashboard() {
                             </div>
 
                             <div className="mt-4 overflow-x-auto">
-                                <table className="w-full min-w-[520px] text-left text-sm">
+                                <table className="w-full min-w-130 text-left text-sm">
                                     <thead>
                                         <tr className="text-gray-400">
                                             <th className="pb-3 font-medium">Role</th>
