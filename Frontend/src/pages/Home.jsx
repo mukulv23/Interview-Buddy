@@ -19,7 +19,7 @@ export const Home = () => {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <img src="hero.png" alt="image" />
-        {user ?
+        {/* {user ?
             <button className='bg-[#8e51ff] rounded-2xl h-12 flex items-center justify-center gap-2 text-white active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer' onClick={() => navigate('/login')}>
                 <RocketIcon size={16} />
                 <span className='font-bold'>Explore</span>
@@ -27,7 +27,7 @@ export const Home = () => {
             <button className='bg-[#8e51ff] rounded-2xl h-12 flex items-center justify-center gap-2 text-white active:bg-[#754bdf]  md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer' onClick={() => navigate('/login')}>
                 <RocketIcon size={16} />
                 <span className='font-bold'>Get Started</span>
-            </button>}
+            </button>} */}
                 </div>
             </div>
         </section>
