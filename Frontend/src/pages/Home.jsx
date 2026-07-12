@@ -47,7 +47,7 @@ const BLOCKERS = [
 
 const TESTIMONIAL = {
     quote:
-        "After a few mock sessions, I stopped freezing up in interviews. The feedback was specific, practical, and helped me walk into my next interview with real confidence.",
+        "After a few mock sessions, I stopped freezing up in Aptitude rounds. The feedback was specific, practical, and helped me walk into my next interview with real confidence.",
     name: "Debasish Dey",
     role: "Full Stack developer, Interview Agent user",
 };
@@ -99,7 +99,7 @@ const PERKS = [
 
 export const Home = () => {
     const show = () => {
-        alert("Full Project is yet to complete for now you can see ui Only.");
+        alert("Backend Services are need to Refine for now you can see ui Only.");
     }
     useEffect(() => {
         show();

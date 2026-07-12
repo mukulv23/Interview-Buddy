@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar.jsx";
+import { Footer } from "./components/Footer.jsx";
 import { Home } from "./pages/Home.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Register } from "./pages/Register.jsx";
@@ -32,7 +33,9 @@ function App() {
           <Route path="*" element={<h1>Error page</h1>} />
         </Routes>
       </main>
-      <footer></footer>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }
