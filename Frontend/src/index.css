@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 .input {
     @apply bg-[#fcfcfc] outline-0 w-full max-w-sm p-1.5 rounded border border-gray-300 shadow font-medium
 }
