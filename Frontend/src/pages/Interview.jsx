@@ -98,7 +98,7 @@ export default function Interview() {
     const [numQuestions, setNumQuestions] = useState(10);
     const navigate = useNavigate();
 
-    const API = import.meta.env.VITE_API_URL;
+    const API = import.meta.env.VITE_API_URL || "http://localhost:4500/api";
 
     const selectedTypeLabel =
         rounds.find((t) => t.key === round)?.title ?? "";
