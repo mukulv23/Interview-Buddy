@@ -12,3 +12,11 @@
 .auth-btn {
     @apply bg-[#8e51ff] mt-4 w-full max-w-sm text-white p-1.5 rounded-2xl active:bg-[#754bdf] md:hover:bg-[#754bdf] md:transition-colors md:duration-200 cursor-pointer
 }
+
+.hero-btn{
+    @apply bg-[#8e51ff] text-white px-6 py-3 rounded-2xl text-lg font-medium flex items-center justify-center gap-1 hover:bg-[#6e2aeb] cursor-pointer transition-all duration-300
+}
+
+.ptr{
+    @apply cursor-pointer
+}
