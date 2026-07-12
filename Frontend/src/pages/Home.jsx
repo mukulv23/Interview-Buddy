@@ -286,7 +286,7 @@ export const Home = () => {
                     {/* Steps */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                         {STEPS.map(({ number, icon: Icon, title, desc }) => (
-                            <div key={number} className="border border-gray-200 rounded-xl p-5 hover:shadow-sm transition-shadow">
+                            <div key={number} className="border bg-white border-gray-200 rounded-xl p-5 hover:shadow-sm transition-shadow">
                                 <div className="flex items-center justify-between mb-3">
                                     <div className="w-7 h-7 rounded-full bg-purple-600 text-white text-xs font-semibold flex items-center justify-center">
                                         {number}
@@ -302,7 +302,7 @@ export const Home = () => {
                     {/* Perks */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                         {PERKS.map(({ icon: Icon, title, desc }) => (
-                            <div key={title} className="flex items-start gap-3 border border-gray-200 rounded-xl p-4">
+                            <div key={title} className="bg-white flex items-start gap-3 border border-gray-200 rounded-xl p-4">
                                 <div className="shrink-0 w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
                                     <Icon className="w-4 h-4 text-purple-600" strokeWidth={2} />
                                 </div>
