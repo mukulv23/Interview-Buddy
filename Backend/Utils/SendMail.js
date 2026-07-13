@@ -1,35 +1,42 @@
-import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
-dotenv.config()
+import axios from "axios";
+import dotenv from "dotenv";
 
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAiL_USER,
-        pass: process.env.EMAIL_PASSWORD
-    }
-})
+dotenv.config();
 
 export const sendOtp = async (email, otp, title) => {
-    const mailOptions = {
-        from: process.env.USER,
-        to: email,
-        subject: `${title}`,
-        html: `
-         <div style="font-family:Arial; padding:20px; text-align:center;">
-                <h2 style="color:#333;">${title}</h2>
-                <p>Your OTP for ${title} is:</p>
+  try {
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: process.env.SENDER_NAME,
+          email: process.env.SENDER_EMAIL,
+        },
+        to: [{ email }],
+        subject: title,
+        htmlContent: `
+          <div style="font-family:Arial;padding:20px;text-align:center;">
+            <h2>${title}</h2>
+            <p>Your OTP is:</p>
+            <h1 style="color:#8e51ff;letter-spacing:5px">${otp}</h1>
+            <p>This OTP is valid for 5 minutes.</p>
+          </div>
+        `,
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json",
+        },
+      }
+    );
 
-                <div style="font-size:32px; font-weight:bold; color:#2563eb; letter-spacing:5px; margin:20px 0;">
-                    ${otp}
-                </div>
-
-                <p>This OTP is valid for 5 minutes.</p>
-            </div>
-            `
-    }
-    await transporter.sendMail(mailOptions);
     return true;
-}
+  } catch (error) {
+    console.error(
+      error.response?.data || error.message
+    );
+    return false;
+  }
+};
