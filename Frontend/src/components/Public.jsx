@@ -6,7 +6,9 @@ export const Public = ({ children }) => {
     const { user, loading } = Auth();
     if (loading)
         return <p>loading...</p>
-    if (user)
+    if (user) {
+        alert("User Already Logged in");
         return <Navigate to='/' replace />
+    }
     return children;
 }
