@@ -23,13 +23,12 @@ export const Register = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setPending(true);
         const { name, email, username, password, confirmPassword } = formData;
         if (!name || !email || !username || !password || !confirmPassword)
             return alert("All fields are required");
         if (password.length < 6)
             return alert("Password can't be less than 6 Characters")
-
+        setPending(true);
         try {
             const response = await fetch(`${API}/auth/generate-otp`, {
                 method: "POST",
@@ -44,6 +43,16 @@ export const Register = () => {
             if (data.success) {
                 setShow(true);
             }
+            else {
+                alert(data.message)
+                setFormData({
+                    name: "",
+                    email: "",
+                    username: "",
+                    password: "",
+                    confirmPassword: ""
+                });
+            }
         } catch (error) {
             console.log(error.message)
         }
@@ -53,6 +62,9 @@ export const Register = () => {
     }
 
     const verifyOtp = async () => {
+
+        if (!email || !otp)
+            return alert("Please enter the details");
         setOtpPending(true)
         try {
             const response = await fetch(`${API}/auth/register-user`, {
@@ -67,6 +79,9 @@ export const Register = () => {
             if (data.success) {
                 navigate('/login')
                 setShow(false);
+            }
+            else {
+                alert(data.message)
             }
         } catch (error) {
             console.log(error.message)

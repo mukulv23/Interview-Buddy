@@ -57,7 +57,7 @@ export const GenerateOtp = async (req, res, next) => {
         if (!sent)
             return res.status(500).json({
                 success: false,
-                message: "Sending otp failed."
+                message: "otp Generation failed."
             })
 
         return res.status(200).json({
@@ -93,7 +93,7 @@ export const RegisterUser = async (req, res, next) => {
         if (!registerd)
             return res.status(400).json({
                 success: false,
-                message: "Error in Registration"
+                message: "Error Occured in Registration"
             })
 
         await otpModel.deleteOne({ email });
@@ -146,7 +146,7 @@ export const LoginUser = async (req, res, next) => {
         )
 
         res.cookie("token", token, {
-            httpOnly: true,
+            httpOnly: process.env.NODE_ENV === "production",
             secure: process.env.NODE_ENV === "production",
             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
