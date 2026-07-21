@@ -51,6 +51,53 @@ export const StartInterview = async (req, res, next) => {
     }
 }
 
+export const SubmitAnswers = async (req, res, next) => {
+    const { id } = req.params;
+    const { answers } = req.body;
+
+    try {
+        if (!answers || typeof answers !== "object" || Object.keys(answers).length === 0)
+            return res.status(400).json({
+                success: false,
+                message: "Please provide answers"
+            });
+
+        const interview = await interviewModel.findOne({ _id: id, user: req.user._id });
+
+        if (!interview)
+            return res.status(404).json({
+                success: false,
+                message: "Interview not found"
+            });
+
+        interview.qna = interview.qna.map((item) => {
+            const submittedAnswer = answers[item._id.toString()];
+            return submittedAnswer !== undefined
+                ? { ...item.toObject(), userAnswer: submittedAnswer }
+                : item;
+        });
+
+        interview.status = "completed";
+        interview.completedAt = new Date();
+
+        const updated = await interview.save();
+
+        if (!updated)
+            return res.status(500).json({
+                success: false,
+                message: "Failed to save answers"
+            });
+
+        return res.status(200).json({
+            success: true,
+            message: "Answers submitted successfully",
+            data: updated
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const getQuestions = async (req, res, next) => {
     try {
         const id = req.params.id;

@@ -107,6 +107,8 @@ export default function Interview() {
 
     const handleStartInterview = async () => {
         console.log(role, experience, round, level, numQuestions)
+        if (!role || !experience || !round || !level || !numQuestions)
+            return alert("Please provide the proper details");
         const response = await fetch(`${API}/interview/start-interview`, {
             method: "POST",
             headers: {
@@ -118,7 +120,13 @@ export default function Interview() {
         const data = await response.json();
         console.log(data.message)
         if (data.success) {
-            navigate(`/start-interview/${data.savedData._id}`);
+            {
+                alert("Generating Questions")
+                navigate(`/start-interview/${data.savedData._id}`);
+            }
+        }
+        else {
+            alert(data.message);
         }
     }
 

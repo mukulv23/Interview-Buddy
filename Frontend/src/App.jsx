@@ -24,10 +24,10 @@ function App() {
           <Route path="/login" element={<Public><Login /></Public>} />
           <Route path="/register" element={<Public><Register /></Public>} />
           <Route path="/interview" element={<Interview />} />
-          <Route path="/start-interview/:id" element={<InterviewSession />} />
-          <Route path="/wallet" element={<h1>wallet</h1>} />
+          <Route path="/start-interview/:id" element={<Protected><InterviewSession /></Protected>} />
+          {/* <Route path="/wallet" element={<h1>wallet</h1>} /> */}
           <Route path="/profile" element={<Protected><Profile /></Protected>} />
-          <Route path="/update/:id" element={<h1>update user</h1>} />
+          {/* <Route path="/update/:id" element={<h1>update user</h1>} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/result" element={<InterviewResults />} />
           <Route path="*" element={<h1>Error page</h1>} />

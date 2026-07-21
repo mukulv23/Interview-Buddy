@@ -59,6 +59,7 @@ const maxChars = 1500;
 
 export default function InterviewSession() {
   const [answer, setAnswer] = useState("");
+  const [answers, setAnswers] = useState({}); // { 0: "text", 1: "text", ... } keyed by index
 
   const [role, setRole] = useState("");
   const [round, setRound] = useState("");
@@ -67,31 +68,83 @@ export default function InterviewSession() {
   const [totalQuestions, setTotalQuestions] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [progress, setProgress] = useState(0);
-
+  const [question, setQuestions] = useState([]); // array of { question, userAnswer, _id }
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
   const API = import.meta.env.VITE_API_URL;
-  const { id } = useParams()
+  const { id } = useParams();
 
   const getData = async () => {
+    try {
+      const response = await fetch(`${API}/interview/get-questions/${id}`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await response.json();
 
-    const response = await fetch(`${API}/interview/get-questions/${id}`, {
-      method: "GET",
-      credentials: "include"
-    })
-    const data = await response.json();
-    if (data.success) {
-      console.log(data)
-      setRole(data.data.role);
-      setLevel(data.data.level);
-      setRound(data.data.round);
-      setTime(data.data.durationInMin);
-      setTotalQuestions(data.data.numQuestions);
+      if (data.success) {
+        setRole(data.data.role);
+        setLevel(data.data.level);
+        setRound(data.data.round);
+        setTime(data.data.durationInMin);
+        setTotalQuestions(data.data.numQuestions);
+        setQuestions(data.data.qna);
+        setCurrentIndex(0);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error("Failed to fetch questions:", err);
     }
-  }
+  };
+
+  const submitAnswers = async () => {
+    setSubmitting(true);
+    try {
+      const payload = {};
+      question.forEach((q, idx) => {
+        payload[q._id] = answers[idx] || "";
+      });
+
+      const response = await fetch(`${API}/interview/submit-answers/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ answers: payload }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Interview submitted successfully!");
+        // navigate to results/dashboard page here if needed
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error("Failed to submit answers:", err);
+      alert("Something went wrong while submitting. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const goToQuestion = (newIndex) => {
+    setCurrentIndex(newIndex);
+    setCurrentQuestion(newIndex + 1);
+    setAnswer(answers[newIndex] || "");
+  };
+
+  useEffect(() => {
+    if (totalQuestions > 0) {
+      setProgress(Math.round(((currentIndex + 1) / totalQuestions) * 100));
+    }
+  }, [currentIndex, totalQuestions]);
 
   useEffect(() => {
     getData();
-  }, [])
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
@@ -109,9 +162,7 @@ export default function InterviewSession() {
           </div>
 
           <div className="text-center">
-            <p className="text-sm font-bold text-gray-900">
-              {role}
-            </p>
+            <p className="text-sm font-bold text-gray-900">{role}</p>
             <p className="text-xs font-medium text-gray-400">
               {round} &middot; {level}
             </p>
@@ -165,8 +216,9 @@ export default function InterviewSession() {
 
               <div className="relative mt-4 rounded-xl bg-violet-50/60 p-4">
                 <p className="text-sm font-medium text-gray-900">
-                  Explain the Virtual DOM in React and why it improves
-                  performance.
+                  {question.length > 0
+                    ? question[currentIndex].question
+                    : "Loading question..."}
                 </p>
                 <div className="mt-3 flex gap-1">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-400" />
@@ -186,7 +238,11 @@ export default function InterviewSession() {
 
               <textarea
                 value={answer}
-                onChange={(e) => setAnswer(e.target.value.slice(0, maxChars))}
+                onChange={(e) => {
+                  const val = e.target.value.slice(0, maxChars);
+                  setAnswer(val);
+                  setAnswers((prev) => ({ ...prev, [currentIndex]: val }));
+                }}
                 placeholder="Type your answer here..."
                 rows={7}
                 className="mt-3 w-full resize-none rounded-lg border border-gray-200 p-3 text-sm text-gray-900 font-medium placeholder-gray-400 outline-none focus:border-violet-300"
@@ -194,7 +250,10 @@ export default function InterviewSession() {
 
               <div className="mt-3 flex gap-3">
                 <button
-                  onClick={() => setAnswer("")}
+                  onClick={() => {
+                    setAnswer("");
+                    setAnswers((prev) => ({ ...prev, [currentIndex]: "" }));
+                  }}
                   className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
                 >
                   <X size={14} />
@@ -206,19 +265,43 @@ export default function InterviewSession() {
             {/* navigation */}
             <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
               <button
-                disabled
-                className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400"
+                disabled={currentIndex === 0}
+                onClick={() => goToQuestion(currentIndex - 1)}
+                className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400 disabled:opacity-50"
               >
                 <ChevronLeft size={14} />
                 Previous Question
               </button>
-              <button className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">
+
+              <button
+                onClick={() => {
+                  if (currentIndex < question.length - 1) {
+                    goToQuestion(currentIndex + 1);
+                  }
+                }}
+                className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50"
+              >
                 <SkipForward size={14} />
                 Skip Question
               </button>
-              <button className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700">
-                Next Question
-                <ChevronRight size={14} />
+
+              <button
+                disabled={submitting}
+                onClick={() => {
+                  if (currentIndex < question.length - 1) {
+                    goToQuestion(currentIndex + 1);
+                  } else {
+                    submitAnswers();
+                  }
+                }}
+                className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {currentIndex >= question.length - 1
+                  ? submitting
+                    ? "Submitting..."
+                    : "Submit"
+                  : "Next Question"}
+                {currentIndex >= question.length - 1 ? null : <ChevronRight size={14} />}
               </button>
             </div>
           </div>
@@ -241,7 +324,9 @@ export default function InterviewSession() {
                   </span>
                 </DetailBox>
                 <DetailBox label="Questions Remaining">
-                  <span className="text-violet-600">7 remaining</span>
+                  <span className="text-violet-600">
+                    {totalQuestions - (currentIndex + 1)} remaining
+                  </span>
                 </DetailBox>
               </div>
             </div>
@@ -256,7 +341,7 @@ export default function InterviewSession() {
               <div className="mt-4 space-y-3">
                 <MetricBox
                   label="Questions Answered"
-                  value="2"
+                  value={Object.values(answers).filter((a) => a.trim() !== "").length}
                   valueClassName="text-violet-600"
                 />
                 <MetricBox label="Avg. Response Length" value="320 words" />

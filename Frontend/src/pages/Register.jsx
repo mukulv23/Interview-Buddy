@@ -63,8 +63,8 @@ export const Register = () => {
 
     const verifyOtp = async () => {
 
-        if (!email || !otp)
-            return alert("Please enter the details");
+        if (!otp)
+            return alert("Please enter the OTP");
         setOtpPending(true)
         try {
             const response = await fetch(`${API}/auth/register-user`, {
