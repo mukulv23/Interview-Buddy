@@ -56,7 +56,7 @@ export const SubmitAnswers = async (req, res, next) => {
     const { answers } = req.body;
 
     try {
-        if (!answers || typeof answers !== "object" || Object.keys(answers).length === 0)
+        if (!answers)
             return res.status(400).json({
                 success: false,
                 message: "Please provide answers"
@@ -119,4 +119,8 @@ export const getQuestions = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const result = async (req, res, next) => {
+
 }

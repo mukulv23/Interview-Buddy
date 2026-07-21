@@ -97,12 +97,6 @@ const PERKS = [
 ];
 
 export const Home = () => {
-    const show = () => {
-        alert("Backend Services are ready just need some changes, for now you can see ui Only.");
-    }
-    useEffect(() => {
-        show();
-    }, [])
     const navigate = useNavigate();
     return (
         <>

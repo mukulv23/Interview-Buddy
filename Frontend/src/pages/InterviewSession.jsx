@@ -11,7 +11,7 @@ import {
   Briefcase,
   BarChart3,
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 /* shared bits */
 
@@ -59,7 +59,7 @@ const maxChars = 1500;
 
 export default function InterviewSession() {
   const [answer, setAnswer] = useState("");
-  const [answers, setAnswers] = useState({}); // { 0: "text", 1: "text", ... } keyed by index
+  const [answers, setAnswers] = useState({});
 
   const [role, setRole] = useState("");
   const [round, setRound] = useState("");
@@ -68,12 +68,13 @@ export default function InterviewSession() {
   const [totalQuestions, setTotalQuestions] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [progress, setProgress] = useState(0);
-  const [question, setQuestions] = useState([]); // array of { question, userAnswer, _id }
+  const [question, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
   const API = import.meta.env.VITE_API_URL;
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -118,7 +119,7 @@ export default function InterviewSession() {
 
       if (data.success) {
         alert("Interview submitted successfully!");
-        // navigate to results/dashboard page here if needed
+        navigate('/result')
       } else {
         alert(data.message);
       }
