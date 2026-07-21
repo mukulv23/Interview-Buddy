@@ -97,6 +97,7 @@ export default function Interview() {
     const [level, setLevel] = useState("Medium");
     const [numQuestions, setNumQuestions] = useState(10);
     const navigate = useNavigate();
+    const { pending, setPending } = useState(false);
 
     const API = import.meta.env.VITE_API_URL;
 
@@ -106,27 +107,32 @@ export default function Interview() {
     const percent = ((numQuestions - 5) / (20 - 5)) * 100;
 
     const handleStartInterview = async () => {
-        console.log(role, experience, round, level, numQuestions)
         if (!role || !experience || !round || !level || !numQuestions)
             return alert("Please provide the proper details");
-        const response = await fetch(`${API}/interview/start-interview`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ role, round, level, numQuestions }),
-            credentials: "include"
-        })
-        const data = await response.json();
-        console.log(data.message)
-        if (data.success) {
-            {
-                alert("Generating Questions")
+
+        setPending(true);
+        try {
+            const response = await fetch(`${API}/interview/start-interview`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ role, round, level, numQuestions }),
+                credentials: "include"
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                alert("Questions Generated");
                 navigate(`/start-interview/${data.savedData._id}`);
+            } else {
+                alert(data.message);
             }
-        }
-        else {
-            alert(data.message);
+        } catch (err) {
+            console.error("Failed to start interview:", err);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setPending(false);
         }
     }
 
@@ -269,9 +275,9 @@ export default function Interview() {
                             <button className="flex-1 cursor-pointer rounded-lg border border-gray-200 bg-white py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                                 Cancel
                             </button>
-                            <button className="flex cursor-pointer flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700" onClick={handleStartInterview}>
+                            <button disabled={pending} className="flex cursor-pointer flex-1 items-center justify-center gap-1.5 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-violet-700" onClick={handleStartInterview}>
                                 <Play size={14} />
-                                Start Interview
+                                {pending ? "loading..." : "Start Interview"}
                             </button>
                         </div>
                     </div>
